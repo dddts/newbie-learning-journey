@@ -1,40 +1,72 @@
+import tkinter
 from tkinter import *
+from tkinter import messagebox
 from PIL import ImageTk,Image
 def count1():
     global count
-    count+=1
+    count+=base
     label.config(text=f"你媽死了{count}次")
+    countcheck()
+    if count>=100:
+        button4.config(state="normal")
 def reset():
     global count
     count=0
+    countcheck()
     label.config(text=f"你媽死了{count}次")
 def rev():
     global count
     count-=base
+    countcheck()
     label.config(text=f"你媽死了{count}次")
+    if count>=100:
+        button4.config(state="normal")
 def autoclick():
     if (x.get() == 1):
         global count
         count+=base
         label.config(text=f"你媽死了{count}次")
+        countcheck()
         nmsl.after(1000, autoclick)
+    if count>=100:
+        button4.config(state="normal")
+def countcheck():
+    if count>=500:
+        button.config(image=nmsl_photo2)
+    elif count>=100:
+        button.config(image=nmsl_photo1)
+    else:
+        button.config(image=nmsl_photo0)
 def lvup():
     global count
     global base
-    if count>=100:
-        count-=100
+    global upcount
+    if count>=cost:
+        count-=cost
+        label.config(text=f"你媽死了{count}次")
+        button4.config(text=f"升級(${cost})")
         base+=1
-base=1
+        upcount+=1
+        countcheck()
+        print(upcount)
+        print(cost)
+base=111
 count=0
-flag1=False
-if count>=100:
-    flag1=True
+upcount=0
+cost=(100*1.87**upcount)
+
+
+#clicker body
 nmsl=Tk()
 nmsl.title("nmsl clicker")
 x=IntVar()
 nmsl.config(background="black")
-image=Image.open("nmsl.gif")
-nmsl_photo=ImageTk.PhotoImage(image)
+image0=Image.open("nmsl.gif")
+nmsl_photo0=ImageTk.PhotoImage(image0)
+image1=Image.open("nmsl1.jpg")
+nmsl_photo1=ImageTk.PhotoImage(image1)
+image2=Image.open("nmsl2.jpg")
+nmsl_photo2=ImageTk.PhotoImage(image2)
 button=Button(nmsl,
               command=count1,
               font=("Comic Sans",30),
@@ -42,7 +74,7 @@ button=Button(nmsl,
               fg="green",
               activebackground="black",
               activeforeground="green",
-              image=nmsl_photo,
+              image=nmsl_photo0,
               compound="bottom",
               padx=80,
               pady=80)
@@ -71,8 +103,10 @@ button3=Checkbutton(nmsl,
 button3.pack(side=BOTTOM)
 nmsl.after(1000,autoclick)
 button4=Button(nmsl,
-               text="升級",
-               command=lvup)
-if flag1:
-    button4.pack(side=BOTTOM)
+               text=f"升級(${cost})",
+               command=lvup,
+               state="disabled")
+
+
+button4.pack(side=BOTTOM)
 nmsl.mainloop()
