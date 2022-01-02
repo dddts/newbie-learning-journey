@@ -53,7 +53,7 @@ def lvup():
 base=111
 count=0
 upcount=0
-cost=(100*1.87**upcount)
+cost=(100*1.05**upcount)
 
 
 #clicker body
