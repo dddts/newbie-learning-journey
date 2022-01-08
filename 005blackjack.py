@@ -125,7 +125,8 @@ while True:
     start()
     if playersum==21:
         print("wow blackjack, you win")
-    hitorstand()
+    else:
+        hitorstand()
     yn=['y','n']
     rgame=None
     while rgame not in yn:
